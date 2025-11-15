@@ -19,6 +19,7 @@ export default function PracticeView() {
   const [idx, setIdx] = useState(0)
   const [input, setInput] = useState('')
   const [infinite, setInfinite] = useState(true)
+  const [showAnswer, setShowAnswer] = useState(false) // 👈 חדש
 
   const { stats, accuracy, markCorrect, markWrong } = useStats()
 
@@ -33,18 +34,23 @@ export default function PracticeView() {
     [idx]
   )
 
+  function resetForNewQuestion() {
+    setInput('')
+    setShowAnswer(false) // 👈 בכל מעבר שאלה – להסתיר תשובה
+  }
+
   function shuffle() {
     for (let i = practice.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1))
       ;[practice[i], practice[j]] = [practice[j], practice[i]]
     }
     setIdx(0)
-    setInput('')
+    resetForNewQuestion()
   }
 
   function prev() {
     setIdx(i => Math.max(0, i - 1))
-    setInput('')
+    resetForNewQuestion()
   }
 
   function checkAndScore() {
@@ -62,18 +68,18 @@ export default function PracticeView() {
       checkAndScore()
     }
 
-    // מעבר לשאלה הבאה + טיפול במצב אין-סופי
     if (idx >= practice.length - 1) {
       if (infinite) {
-        shuffle() // מערבב ומתחיל מהתחלה
-        setIdx(0)
+        shuffle() // כבר עושה resetForNewQuestion בפנים
+        return
       } else {
         setIdx(practice.length - 1)
       }
     } else {
       setIdx(i => i + 1)
     }
-    setInput('')
+
+    resetForNewQuestion()
   }
 
   return (
@@ -144,9 +150,7 @@ export default function PracticeView() {
             <Stack direction="row" spacing={1} sx={{ mt: 1 }}>
               <Button
                 variant="contained"
-                onClick={() => {
-                  checkAndScore()
-                }}
+                onClick={checkAndScore}
                 disabled={!normalized(input)}
               >
                 בדוק
@@ -154,11 +158,23 @@ export default function PracticeView() {
               <Button variant="outlined" onClick={next}>
                 הבא
               </Button>
+              <Button
+                variant="text"
+                onClick={() => setShowAnswer(v => !v)}
+              >
+                {showAnswer ? 'הסתר תשובה' : 'הצג תשובה'}
+              </Button>
             </Stack>
 
-            <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-              תשובה: <strong>{current.answer}</strong>
-            </Typography>
+            {showAnswer && ( // 👈 התשובה מוצגת רק אם showAnswer = true
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{ mt: 1 }}
+              >
+                תשובה: <strong>{current.answer}</strong>
+              </Typography>
+            )}
           </Box>
         </CardContent>
       </Card>
