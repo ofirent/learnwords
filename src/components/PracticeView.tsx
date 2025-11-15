@@ -5,7 +5,6 @@ import {
   Card,
   CardContent,
   Typography,
-  TextField,
   Button,
   Stack,
   LinearProgress,
@@ -17,26 +16,50 @@ import { useStats } from '../useStats'
 
 export default function PracticeView() {
   const [idx, setIdx] = useState(0)
-  const [input, setInput] = useState('')
   const [infinite, setInfinite] = useState(true)
-  const [showAnswer, setShowAnswer] = useState(false) // 👈 חדש
+  const [selected, setSelected] = useState<string | null>(null)
+  const [answered, setAnswered] = useState(false)
 
   const { stats, accuracy, markCorrect, markWrong } = useStats()
 
   const current = practice[idx]
-  const normalized = (s: string) => s.trim().toLowerCase()
-  const isCorrect =
-    normalized(input).length > 0 &&
-    normalized(input) === normalized(current.answer)
 
   const progress = useMemo(
     () => ((idx + 1) / practice.length) * 100,
     [idx]
   )
 
+  // יצירת 4 אופציות – אחת נכונה, 3 אחרות רנדומליות
+  const options = useMemo(() => {
+    const correct = current.answer
+    const others = practice
+      .filter((_, i) => i !== idx)
+      .map(p => p.answer)
+
+    const shuffledOthers = [...others]
+    for (let i = shuffledOthers.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1))
+      ;[shuffledOthers[i], shuffledOthers[j]] = [
+        shuffledOthers[j],
+        shuffledOthers[i],
+      ]
+    }
+
+    const distractors = shuffledOthers.slice(0, 3)
+    const all = [correct, ...distractors]
+
+    // ערבוב 4 האופציות
+    for (let i = all.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1))
+      ;[all[i], all[j]] = [all[j], all[i]]
+    }
+
+    return all
+  }, [idx, current.answer])
+
   function resetForNewQuestion() {
-    setInput('')
-    setShowAnswer(false) // 👈 בכל מעבר שאלה – להסתיר תשובה
+    setSelected(null)
+    setAnswered(false)
   }
 
   function shuffle() {
@@ -53,9 +76,15 @@ export default function PracticeView() {
     resetForNewQuestion()
   }
 
-  function checkAndScore() {
-    if (!normalized(input)) return
-    if (isCorrect) {
+  function handleSelect(option: string) {
+    setSelected(option)
+
+    // אם כבר ענינו על השאלה – לא להחשיב שוב
+    if (answered) return
+
+    setAnswered(true)
+
+    if (option === current.answer) {
       markCorrect()
     } else {
       markWrong()
@@ -63,24 +92,30 @@ export default function PracticeView() {
   }
 
   function next() {
-    // קודם נבדוק/נעניק ניקוד אם הוזנה תשובה
-    if (normalized(input)) {
-      checkAndScore()
-    }
-
-    if (idx >= practice.length - 1) {
-      if (infinite) {
-        shuffle() // כבר עושה resetForNewQuestion בפנים
-        return
-      } else {
-        setIdx(practice.length - 1)
-      }
-    } else {
-      setIdx(i => i + 1)
-    }
-
+    // קודם מאפסים את המשוב, כדי שלא יופיע על השאלה הבאה
     resetForNewQuestion()
+
+    setIdx(prevIdx => {
+      if (prevIdx >= practice.length - 1) {
+        if (infinite) {
+          // ערבוב חוזר והתחלה מחדש
+          for (let i = practice.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1))
+            ;[practice[i], practice[j]] = [practice[j], practice[i]]
+          }
+          return 0
+        } else {
+          return practice.length - 1
+        }
+      } else {
+        return prevIdx + 1
+      }
+    })
   }
+
+  const isCorrectSelection =
+    selected != null && selected === current.answer
+  const hasSelection = selected != null
 
   return (
     <Box sx={{ mt: 2 }}>
@@ -94,13 +129,24 @@ export default function PracticeView() {
           שאלה {idx + 1} / {practice.length}
         </Typography>
         <Stack direction="row" spacing={1}>
-          <Button variant="outlined" onClick={shuffle}>ערבוב</Button>
-          <Button variant="contained" onClick={prev}>הקודם</Button>
-          <Button variant="contained" onClick={next}>הבא</Button>
+          <Button variant="outlined" onClick={shuffle}>
+            ערבוב
+          </Button>
+          <Button variant="contained" onClick={prev}>
+            הקודם
+          </Button>
+          <Button variant="contained" onClick={next}>
+            הבא
+          </Button>
         </Stack>
       </Stack>
 
-      <Stack direction="row" spacing={1} sx={{ mb: 1 }} alignItems="center">
+      <Stack
+        direction="row"
+        spacing={1}
+        sx={{ mb: 1 }}
+        alignItems="center"
+      >
         <Typography variant="body2">
           ניקוד: <strong>{stats.score}</strong>
         </Typography>
@@ -119,62 +165,76 @@ export default function PracticeView() {
         </Button>
       </Stack>
 
-      <LinearProgress variant="determinate" value={progress} sx={{ mb: 2 }} />
+      <LinearProgress
+        variant="determinate"
+        value={progress}
+        sx={{ mb: 2 }}
+      />
 
       <Card variant="outlined">
         <CardContent>
-          <Typography variant="h6" sx={{ mb: 1 }}>
+          <Typography variant="h6" sx={{ mb: 2 }}>
             {current.sentenceWithBlank.replace('____', '_____')}
           </Typography>
 
-          <TextField
-            fullWidth
-            label="הקלד/י את המילה החסרה"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') next()
-            }}
-          />
+          <Stack spacing={1}>
+            {options.map(option => {
+              const isSelected = selected === option
+              const isCorrect = option === current.answer
+
+              let color:
+                | 'inherit'
+                | 'success'
+                | 'error'
+                | 'primary'
+                | 'secondary' = 'primary'
+
+              if (answered) {
+                if (isCorrect) color = 'success'
+                if (isSelected && !isCorrect) color = 'error'
+              }
+
+              return (
+                <Button
+                  key={option}
+                  variant={isSelected ? 'contained' : 'outlined'}
+                  color={color}
+                  onClick={() => handleSelect(option)}
+                  sx={{ justifyContent: 'flex-start' }}
+                  fullWidth
+                >
+                  {option}
+                </Button>
+              )
+            })}
+          </Stack>
 
           <Box sx={{ mt: 2 }}>
-            <Collapse in={Boolean(normalized(input)) && !isCorrect}>
+            <Collapse
+              in={answered && hasSelection && !isCorrectSelection}
+              unmountOnExit
+            >
               <Alert severity="warning">
-                לא מדויק עדיין. רמז: {current.hint || 'נסו שוב 🙂'}
+                לא מדויק… <br />
+                התשובה הנכונה:{' '}
+                <strong>{current.answer}</strong>
+                <br />
+                התרגום:{' '}
+                <strong>{current.hint}</strong>
               </Alert>
             </Collapse>
-            <Collapse in={Boolean(isCorrect)}>
-              <Alert severity="success">בול! תשובה נכונה ✅</Alert>
+
+            <Collapse
+              in={answered && isCorrectSelection}
+              unmountOnExit
+            >
+              <Alert severity="success">
+                בול! תשובה נכונה ✅
+                <br />
+                <strong>{current.answer}</strong> —{' '}
+                {current.hint}
+              </Alert>
             </Collapse>
-
-            <Stack direction="row" spacing={1} sx={{ mt: 1 }}>
-              <Button
-                variant="contained"
-                onClick={checkAndScore}
-                disabled={!normalized(input)}
-              >
-                בדוק
-              </Button>
-              <Button variant="outlined" onClick={next}>
-                הבא
-              </Button>
-              <Button
-                variant="text"
-                onClick={() => setShowAnswer(v => !v)}
-              >
-                {showAnswer ? 'הסתר תשובה' : 'הצג תשובה'}
-              </Button>
-            </Stack>
-
-            {showAnswer && ( // 👈 התשובה מוצגת רק אם showAnswer = true
-              <Typography
-                variant="body2"
-                color="text.secondary"
-                sx={{ mt: 1 }}
-              >
-                תשובה: <strong>{current.answer}</strong>
-              </Typography>
-            )}
           </Box>
         </CardContent>
       </Card>
