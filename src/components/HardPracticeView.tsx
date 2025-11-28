@@ -1,64 +1,75 @@
 import * as React from 'react'
-import { useContext, useMemo, useState } from 'react'
-import { AppContext } from '../appState'
-import { Box, Card, CardContent, Typography, TextField, Button, Stack, Alert, Collapse, LinearProgress } from '@mui/material'
-import type { VocabItem } from '../types'
+import { Box, Typography, Stack, Button, Card, CardContent } from '@mui/material'
+import { practice, vocab } from '../data'
+import { useStats } from '../useStats'
 
 export default function HardPracticeView() {
-  const { hardWords, setTab } = useContext(AppContext)
-  const [idx, setIdx] = useState(0)
-  const [input, setInput] = useState('')
+  const { stats, accuracy, markCorrect, markWrong } = useStats()
+  const hardWords = React.useMemo(
+    () => vocab.filter(v => v.difficulty === 'hard').map(v => v.word.toLowerCase()),
+    []
+  )
+  const hardPractice = React.useMemo(
+    () => practice.filter(p => hardWords.includes(p.answer.toLowerCase())),
+    [hardWords]
+  )
+  const [idx, setIdx] = React.useState(0)
+  const current = hardPractice[idx] ?? hardPractice[0]
 
-  const current = hardWords[idx]
-  const progress = useMemo(() => hardWords.length ? ((idx + 1) / hardWords.length) * 100 : 0, [idx, hardWords.length])
-  const norm = (s: string) => s.trim().toLowerCase()
-  const isCorrect = Boolean(norm(input)) && norm(input) === norm(current?.word || '')
-
-  if (!hardWords.length) {
-    return <Alert severity="info">אין מילים “קשות” מהסשן האחרון. בצע סשן SRS תחילה.</Alert>
-  }
-
-  function next() {
-    const n = idx + 1
-    if (n >= hardWords.length) {
-      setTab('learn')
+  function mark(knew: boolean) {
+    if (knew) {
+      markCorrect()
     } else {
-      setIdx(n); setInput('')
+      markWrong()
     }
+    setIdx(i => (i + 1 >= hardPractice.length ? 0 : i + 1))
   }
+
+  if (!current || hardPractice.length === 0) {
+    return (
+      <Box sx={{ mt: 2 }}>
+        <Typography>
+          כרגע אין מילים מסומנות כ״קשות״ (hard). נסה ללמוד קודם בכרטיסיות ואז לחזור
+          לכאן.
+        </Typography>
+      </Box>
+    )
+  }
+
+  const vocabItem = vocab.find(v => v.word.toLowerCase() === current.answer.toLowerCase())
 
   return (
     <Box sx={{ mt: 2 }}>
-      <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 1 }}>
-        <Typography color="text.secondary">מילה {idx + 1} / {hardWords.length}</Typography>
-        <Button variant="outlined" onClick={() => setTab('learn')}>סיום</Button>
-      </Stack>
-      <LinearProgress variant="determinate" value={progress} sx={{ mb: 2 }} />
+      <Typography variant="h6" sx={{ mb: 1 }}>
+        אימון מילים קשות
+      </Typography>
+      <Typography variant="body2" sx={{ mb: 1 }}>
+        ניקוד: <strong>{stats.score}</strong> • דיוק: <strong>{accuracy}%</strong>
+      </Typography>
 
       <Card variant="outlined">
         <CardContent>
           <Typography variant="h6" sx={{ mb: 1 }}>
-            כתבו את המילה באנגלית עבור: <strong>{current.translation}</strong>
+            {current.sentenceWithBlank.replace('____', '_____')}
           </Typography>
-          <TextField
-            fullWidth
-            autoFocus
-            label="המילה באנגלית"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => { if (e.key === 'Enter') next() }}
-          />
-          <Box sx={{ mt: 2 }}>
-            <Collapse in={Boolean(norm(input)) && !isCorrect}>
-              <Alert severity="warning">כמעט... המילה: <strong>{current.word}</strong></Alert>
-            </Collapse>
-            <Collapse in={isCorrect}>
-              <Alert severity="success">בול! {current.word}</Alert>
-            </Collapse>
-            <Stack direction="row" spacing={1} sx={{ mt: 1 }}>
-              <Button variant="contained" onClick={next}>הבא</Button>
-            </Stack>
-          </Box>
+          {vocabItem && (
+            <Typography color="text.secondary" sx={{ mb: 1 }}>
+              (התשובה היא מילה מסומנת כקשה)
+            </Typography>
+          )}
+          <Stack direction="row" spacing={1} sx={{ mt: 2 }}>
+            <Button variant="contained" color="success" onClick={() => mark(true)}>
+              ידעתי
+            </Button>
+            <Button variant="outlined" color="error" onClick={() => mark(false)}>
+              לא ידעתי
+            </Button>
+          </Stack>
+          {vocabItem && (
+            <Typography sx={{ mt: 2 }}>
+              תשובה: <strong>{vocabItem.word}</strong> — {vocabItem.translation}
+            </Typography>
+          )}
         </CardContent>
       </Card>
     </Box>
