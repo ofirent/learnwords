@@ -11,7 +11,7 @@ import {
   Alert,
   Collapse,
 } from '@mui/material'
-import { practice } from '../data'
+import { practice, vocab } from '../data'
 import { useStats } from '../useStats'
 
 export default function PracticeView() {
@@ -29,7 +29,11 @@ export default function PracticeView() {
     [idx]
   )
 
-  // יצירת 4 אופציות – אחת נכונה, 3 אחרות רנדומליות
+  const currentVocab = useMemo(
+    () => vocab.find(v => v.word.toLowerCase() === current.answer.toLowerCase()),
+    [current.answer]
+  )
+
   const options = useMemo(() => {
     const correct = current.answer
     const others = practice
@@ -48,7 +52,6 @@ export default function PracticeView() {
     const distractors = shuffledOthers.slice(0, 3)
     const all = [correct, ...distractors]
 
-    // ערבוב 4 האופציות
     for (let i = all.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1))
       ;[all[i], all[j]] = [all[j], all[i]]
@@ -62,7 +65,7 @@ export default function PracticeView() {
     setAnswered(false)
   }
 
-  function shuffle() {
+  function shuffleAll() {
     for (let i = practice.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1))
       ;[practice[i], practice[j]] = [practice[j], practice[i]]
@@ -78,10 +81,7 @@ export default function PracticeView() {
 
   function handleSelect(option: string) {
     setSelected(option)
-
-    // אם כבר ענינו על השאלה – לא להחשיב שוב
     if (answered) return
-
     setAnswered(true)
 
     if (option === current.answer) {
@@ -92,13 +92,10 @@ export default function PracticeView() {
   }
 
   function next() {
-    // קודם מאפסים את המשוב, כדי שלא יופיע על השאלה הבאה
     resetForNewQuestion()
-
     setIdx(prevIdx => {
       if (prevIdx >= practice.length - 1) {
         if (infinite) {
-          // ערבוב חוזר והתחלה מחדש
           for (let i = practice.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1))
             ;[practice[i], practice[j]] = [practice[j], practice[i]]
@@ -129,7 +126,7 @@ export default function PracticeView() {
           שאלה {idx + 1} / {practice.length}
         </Typography>
         <Stack direction="row" spacing={1}>
-          <Button variant="outlined" onClick={shuffle}>
+          <Button variant="outlined" onClick={shuffleAll}>
             ערבוב
           </Button>
           <Button variant="contained" onClick={prev}>
@@ -218,9 +215,13 @@ export default function PracticeView() {
                 לא מדויק… <br />
                 התשובה הנכונה:{' '}
                 <strong>{current.answer}</strong>
-                <br />
-                התרגום:{' '}
-                <strong>{current.hint}</strong>
+                {currentVocab && (
+                  <>
+                    <br />
+                    התרגום:{' '}
+                    <strong>{currentVocab.translation}</strong>
+                  </>
+                )}
               </Alert>
             </Collapse>
 
@@ -230,9 +231,13 @@ export default function PracticeView() {
             >
               <Alert severity="success">
                 בול! תשובה נכונה ✅
-                <br />
-                <strong>{current.answer}</strong> —{' '}
-                {current.hint}
+                {currentVocab && (
+                  <>
+                    <br />
+                    <strong>{currentVocab.word}</strong> —{' '}
+                    {currentVocab.translation}
+                  </>
+                )}
               </Alert>
             </Collapse>
           </Box>
