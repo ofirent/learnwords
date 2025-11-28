@@ -1,63 +1,54 @@
-import * as React from 'react'
+import { useEffect, useState } from 'react'
 
-type Stats = {
+interface Stats {
+  score: number
   total: number
   correct: number
-  wrong: number
   streak: number
   bestStreak: number
-  score: number
 }
 
-const KEY = 'vocab_stats_v1'
+const KEY = 'vocab-trainer-stats-v1'
 
-const defaultStats: Stats = {
-  total: 0, correct: 0, wrong: 0, streak: 0, bestStreak: 0, score: 0
+function loadStats(): Stats {
+  try {
+    const raw = localStorage.getItem(KEY)
+    if (!raw) return { score: 0, total: 0, correct: 0, streak: 0, bestStreak: 0 }
+    return JSON.parse(raw) as Stats
+  } catch {
+    return { score: 0, total: 0, correct: 0, streak: 0, bestStreak: 0 }
+  }
 }
 
 export function useStats() {
-  const [stats, setStats] = React.useState<Stats>(() => {
-    try {
-      const raw = localStorage.getItem(KEY)
-      return raw ? { ...defaultStats, ...JSON.parse(raw) } as Stats : defaultStats
-    } catch {
-      return defaultStats
-    }
-  })
+  const [stats, setStats] = useState<Stats>(() => loadStats())
 
-  React.useEffect(() => {
+  useEffect(() => {
     localStorage.setItem(KEY, JSON.stringify(stats))
   }, [stats])
 
+  const accuracy = stats.total === 0 ? 0 : Math.round((stats.correct / stats.total) * 100)
+
   function markCorrect() {
-    setStats(s => {
-      const next = {
-        ...s,
-        total: s.total + 1,
-        correct: s.correct + 1,
-        streak: s.streak + 1,
-        bestStreak: Math.max(s.bestStreak, s.streak + 1),
-        score: s.score + 10
+    setStats(prev => {
+      const streak = prev.streak + 1
+      return {
+        score: prev.score + 10,
+        total: prev.total + 1,
+        correct: prev.correct + 1,
+        streak,
+        bestStreak: Math.max(prev.bestStreak, streak),
       }
-      return next
     })
   }
 
   function markWrong() {
-    setStats(s => ({
-      ...s,
-      total: s.total + 1,
-      wrong: s.wrong + 1,
+    setStats(prev => ({
+      ...prev,
+      total: prev.total + 1,
       streak: 0,
-      score: Math.max(0, s.score - 2)
     }))
   }
 
-  function reset() {
-    setStats(defaultStats)
-  }
-
-  const accuracy = stats.total ? Math.round((stats.correct / stats.total) * 100) : 0
-
-  return { stats, accuracy, markCorrect, markWrong, reset }
+  return { stats, accuracy, markCorrect, markWrong }
 }
