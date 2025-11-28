@@ -1,14 +1,17 @@
-export type SourceKey = 'routine' | 'nomophobia'
+export type Difficulty = 'easy' | 'medium' | 'hard'
+
+export type SourceKey = 'routine' | 'nomophobia' | 'friends'
 
 export interface VocabItem {
   word: string
   translation: string
   example?: string
   source: SourceKey
+  difficulty?: Difficulty
 }
 
 export interface PracticeItem {
-  sentenceWithBlank: string // contains '____'
+  sentenceWithBlank: string 
   answer: string
   hint?: string
 }
