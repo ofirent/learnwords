@@ -1,11 +1,37 @@
 import * as React from 'react'
 import { useMemo, useState, useEffect } from 'react'
-import { Box, Card, CardContent, Typography, TextField, Button, Stack, LinearProgress, Alert, Collapse, Chip } from '@mui/material'
-import { practice } from '../data'
+import {
+  Box,
+  Card,
+  CardContent,
+  Typography,
+  TextField,
+  Button,
+  Stack,
+  LinearProgress,
+  Chip,
+} from '@mui/material'
+import { practice, vocab } from '../data'
 import { useStats } from '../useStats'
+import type { Difficulty } from '../types'
+
+function difficultyLabel(level?: Difficulty) {
+  if (!level) return ''
+  if (level === 'easy') return 'קל'
+  if (level === 'medium') return 'בינוני'
+  if (level === 'hard') return 'קשה'
+  return ''
+}
+
+function difficultyColor(level?: Difficulty): 'default' | 'success' | 'warning' | 'error' {
+  if (level === 'easy') return 'success'
+  if (level === 'medium') return 'warning'
+  if (level === 'hard') return 'error'
+  return 'default'
+}
 
 export default function QuizView() {
-  const [time, setTime] = useState(90) // seconds
+  const [time, setTime] = useState(90)
   const [running, setRunning] = useState(false)
   const [idx, setIdx] = useState(0)
   const [input, setInput] = useState('')
@@ -15,7 +41,14 @@ export default function QuizView() {
   const { stats, accuracy, markCorrect, markWrong } = useStats()
   const current = practice[idx]
   const normalized = (s: string) => s.trim().toLowerCase()
-  const isCorrect = Boolean(normalized(input)) && normalized(input) === normalized(current.answer)
+  const isCorrect =
+    Boolean(normalized(input)) &&
+    normalized(input) === normalized(current.answer)
+
+  const currentVocab = useMemo(
+    () => vocab.find(v => v.word.toLowerCase() === current.answer.toLowerCase()),
+    [current.answer]
+  )
 
   useEffect(() => {
     if (!running) return
@@ -29,7 +62,6 @@ export default function QuizView() {
 
   function moveNext() {
     if (idx >= practice.length - 1) {
-      // reshuffle for continuous quiz
       shuffle()
       setIdx(0)
     } else {
@@ -50,7 +82,7 @@ export default function QuizView() {
     if (isCorrect) {
       markCorrect()
       const nextCount = correctInLevel + 1
-      const requirement = 5 + (level - 1) * 2 // harder each level
+      const requirement = 5 + (level - 1) * 2
       if (nextCount >= requirement) {
         setLevel(l => l + 1)
         setCorrectInLevel(0)
@@ -59,33 +91,60 @@ export default function QuizView() {
       }
     } else {
       markWrong()
-      // small penalty: drop progress-in-level
       setCorrectInLevel(c => Math.max(0, c - 1))
     }
     moveNext()
   }
 
   const levelRequirement = 5 + (level - 1) * 2
-  const levelProgress = useMemo(() => (correctInLevel / levelRequirement) * 100, [correctInLevel, levelRequirement])
+  const levelProgress = useMemo(
+    () => (correctInLevel / levelRequirement) * 100,
+    [correctInLevel, levelRequirement]
+  )
   const timeProgress = useMemo(() => (time / 90) * 100, [time])
 
   return (
     <Box sx={{ mt: 2 }}>
-      <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 1 }}>
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        sx={{ mb: 1 }}
+      >
         <Stack direction="row" spacing={1} alignItems="center">
-          <Chip color="primary" label={"Level " + level} />
+          <Chip color="primary" label={'Level ' + level} />
           <Box sx={{ minWidth: 200 }}>
             <Typography variant="caption">התקדמות לרמה הבאה</Typography>
             <LinearProgress variant="determinate" value={levelProgress} />
           </Box>
+          {currentVocab?.difficulty && (
+            <Chip
+              label={'רמת קושי: ' + difficultyLabel(currentVocab.difficulty)}
+              color={difficultyColor(currentVocab.difficulty)}
+              size="small"
+              variant="outlined"
+            />
+          )}
         </Stack>
         <Stack direction="row" spacing={1} alignItems="center">
           <Box sx={{ minWidth: 160 }}>
             <Typography variant="caption">שעון (90 שנ׳)</Typography>
             <LinearProgress variant="determinate" value={timeProgress} />
           </Box>
-          <Button variant="contained" onClick={() => setRunning(r => !r)}>{running ? 'השהה' : 'התחל'}</Button>
-          <Button variant="outlined" onClick={() => { setTime(90); setRunning(false); setLevel(1); setCorrectInLevel(0) }}>איפוס</Button>
+          <Button variant="contained" onClick={() => setRunning(r => !r)}>
+            {running ? 'השהה' : 'התחל'}
+          </Button>
+          <Button
+            variant="outlined"
+            onClick={() => {
+              setTime(90)
+              setRunning(false)
+              setLevel(1)
+              setCorrectInLevel(0)
+            }}
+          >
+            איפוס
+          </Button>
         </Stack>
       </Stack>
 
@@ -99,20 +158,38 @@ export default function QuizView() {
             autoFocus
             label="המילה החסרה"
             value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => { if (e.key === 'Enter') submit() }}
+            onChange={e => setInput(e.target.value)}
+            onKeyDown={e => {
+              if (e.key === 'Enter') submit()
+            }}
             disabled={!running || time === 0}
           />
           <Stack direction="row" spacing={1} sx={{ mt: 2 }}>
-            <Button variant="contained" onClick={submit} disabled={!running || time === 0}>שלח</Button>
-            <Button variant="outlined" onClick={moveNext} disabled={!running || time === 0}>דלג</Button>
+            <Button
+              variant="contained"
+              onClick={submit}
+              disabled={!running || time === 0}
+            >
+              שלח
+            </Button>
+            <Button
+              variant="outlined"
+              onClick={moveNext}
+              disabled={!running || time === 0}
+            >
+              דלג
+            </Button>
           </Stack>
         </CardContent>
       </Card>
 
       <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
-        <Typography variant="body2">ניקוד: <strong>{stats.score}</strong></Typography>
-        <Typography variant="body2">דיוק כולל: <strong>{accuracy}%</strong></Typography>
+        <Typography variant="body2">
+          ניקוד: <strong>{stats.score}</strong>
+        </Typography>
+        <Typography variant="body2">
+          דיוק כולל: <strong>{accuracy}%</strong>
+        </Typography>
       </Stack>
     </Box>
   )
