@@ -1,7 +1,7 @@
 {
-  "setId": "men-women-friends",
-  "label": "Men and Women Can't Just Be Friends - Vocabulary",
-  "source": "friends",
+  "setId": "clocking-cultures",
+  "label": "Clocking Cultures - Vocabulary",
+  "source": "clocking",
   "colors": {
     "easy": "#4caf50",
     "medium": "#ffb300",
@@ -9,259 +9,116 @@
   },
   "vocab": [
     {
-      "word": "attraction",
-      "translation": "משיכה",
-      "example": "The study showed that attraction between friends can sometimes grow.",
-      "difficulty": "medium"
-    },
-    {
-      "word": "relationship",
-      "translation": "מערכת יחסים",
-      "example": "Their relationship stayed professional despite rumors.",
+      "word": "culture",
+      "translation": "תרבות",
+      "example": "She wants to learn more about Japanese culture before visiting Tokyo.",
       "difficulty": "easy"
     },
     {
-      "word": "platonic",
-      "translation": "אפלטונית (לא רומנטית)",
-      "example": "They had a purely platonic friendship.",
-      "difficulty": "medium"
-    },
-    {
-      "word": "perceive",
-      "translation": "לתפוס, להבחין",
-      "example": "He perceived her message as a sign of interest.",
-      "difficulty": "hard"
-    },
-    {
-      "word": "opportunity",
-      "translation": "הזדמנות",
-      "example": "The conference gave her an opportunity to meet new people.",
+      "word": "priorities",
+      "translation": "עדיפויות",
+      "example": "My health and family are my top priorities.",
       "difficulty": "easy"
     },
     {
-      "word": "assume",
-      "translation": "להניח, לשער",
-      "example": "Many people assume men and women cannot be just friends.",
+      "word": "ambassador",
+      "translation": "שגריר",
+      "example": "The ambassador spoke to the students about peace and cooperation.",
       "difficulty": "medium"
     },
     {
-      "word": "misguided",
-      "translation": "מוטעה, שגוי",
-      "example": "He had a misguided belief about their relationship.",
-      "difficulty": "hard"
-    },
-    {
-      "word": "estimate",
-      "translation": "להעריך",
-      "example": "They tried to estimate how many friendships involve attraction.",
-      "difficulty": "medium"
-    },
-    {
-      "word": "sensitive",
-      "translation": "רגיש",
-      "example": "She was sensitive to his feelings.",
+      "word": "resident",
+      "translation": "תושב",
+      "example": "Bobby is a resident of Beersheva.",
       "difficulty": "easy"
     },
     {
-      "word": "involved",
-      "translation": "מעורב, בקשר",
-      "example": "She didn’t want to get involved with anyone at work.",
+      "word": "concept",
+      "translation": "מושג",
+      "example": "Concepts of time vary by culture.",
       "difficulty": "medium"
     },
     {
-      "word": "pursue",
-      "translation": "לרדוף, לחזר / להמשיך אחרי",
-      "example": "He chose not to pursue a romantic relationship.",
-      "difficulty": "hard"
-    },
-    {
-      "word": "complicated",
-      "translation": "מסובך, מורכב",
-      "example": "Opposite-sex friendships can become complicated.",
+      "word": "ancestors",
+      "translation": "אבות / אבות קדומים",
+      "example": "Her ancestors came from Sicily many years ago.",
       "difficulty": "medium"
     },
     {
-      "word": "aspect",
-      "translation": "היבט",
-      "example": "One aspect of friendship is emotional support.",
-      "difficulty": "medium"
-    },
-    {
-      "word": "mutual",
-      "translation": "הדדי",
-      "example": "There was a mutual understanding between them.",
+      "word": "budget",
+      "translation": "תקציב",
+      "example": "Jill and Glen try to stick to a monthly family budget.",
       "difficulty": "easy"
     },
     {
-      "word": "conflict",
-      "translation": "קונפליקט, סכסוך",
-      "example": "Different expectations caused a conflict.",
+      "word": "phrase",
+      "translation": "ביטוי",
+      "example": "Break a leg is a phrase that you say to wish someone good luck.",
       "difficulty": "easy"
     },
     {
-      "word": "agree",
-      "translation": "להסכים",
-      "example": "Both friends agreed not to tell anyone about the study.",
+      "word": "progress",
+      "translation": "התקדמות",
+      "example": "The tech sector seems to always be making progress.",
       "difficulty": "easy"
     },
     {
-      "word": "confidentiality",
-      "translation": "סודיות",
-      "example": "The experiment required full confidentiality.",
-      "difficulty": "hard"
-    },
-    {
-      "word": "possibility",
-      "translation": "אפשרות",
-      "example": "There is always a possibility of developing feelings.",
-      "difficulty": "medium"
-    },
-    {
-      "word": "observer",
-      "translation": "צופה",
-      "example": "An outside observer might think they were in love.",
-      "difficulty": "medium"
-    },
-    {
-      "word": "conclusion",
-      "translation": "מסקנה",
-      "example": "The conclusion of the study surprised everyone.",
-      "difficulty": "medium"
-    },
-    {
-      "word": "provoke",
-      "translation": "לעורר, להתסיס",
-      "example": "His words provoked a big argument.",
-      "difficulty": "hard"
-    },
-    {
-      "word": "debate",
-      "translation": "דיון, ויכוח",
-      "example": "There was a serious debate about friendships.",
-      "difficulty": "medium"
-    },
-    {
-      "word": "lurid",
-      "translation": "מזעזע / סנסציוני (בהקשר שלילי)",
-      "example": "The magazine published a lurid story about them.",
+      "word": "tapestry",
+      "translation": "טפט / אריג קיר",
+      "example": "The museum has a beautiful tapestry dating back from the 15th century.",
       "difficulty": "hard"
     }
   ],
   "practice": [
     {
-      "sentenceWithBlank": "The study showed that ____ between friends can sometimes grow.",
-      "answer": "attraction",
-      "hint": "משיכה"
+      "sentenceWithBlank": "She wants to learn more about Japanese ____ before visiting Tokyo.",
+      "answer": "culture",
+      "hint": "מסורות, אורח חיים"
     },
     {
-      "sentenceWithBlank": "Their ____ stayed professional despite rumors.",
-      "answer": "relationship",
-      "hint": "מערכת יחסים"
+      "sentenceWithBlank": "My health and family are my top ____.",
+      "answer": "priorities",
+      "hint": "מה שהכי חשוב לך"
     },
     {
-      "sentenceWithBlank": "They had a purely ____ friendship with no romantic feelings.",
-      "answer": "platonic",
-      "hint": "ידידות לא רומנטית"
+      "sentenceWithBlank": "The ____ spoke to the students about peace and cooperation.",
+      "answer": "ambassador",
+      "hint": "נציג מדינה רשמי"
     },
     {
-      "sentenceWithBlank": "He ____ her message as a sign of interest.",
-      "answer": "perceived",
-      "hint": "הבין / תפס"
+      "sentenceWithBlank": "Bobby is a ____ of Beersheva.",
+      "answer": "resident",
+      "hint": "גר במקום מסוים"
     },
     {
-      "sentenceWithBlank": "The conference gave her an ____ to meet new people.",
-      "answer": "opportunity",
-      "hint": "הזדמנות"
+      "sentenceWithBlank": "Concepts of time vary by ____.",
+      "answer": "culture",
+      "hint": "מדינות, עמים"
     },
     {
-      "sentenceWithBlank": "Many people ____ that men and women cannot be just friends.",
-      "answer": "assume",
-      "hint": "להניח בלי הוכחה"
+      "sentenceWithBlank": "Her ____ came from Sicily many years ago.",
+      "answer": "ancestors",
+      "hint": "אבות קדומים"
     },
     {
-      "sentenceWithBlank": "He had a ____ belief about their relationship.",
-      "answer": "misguided",
-      "hint": "מוטעה"
+      "sentenceWithBlank": "They try to stick to a monthly family ____.",
+      "answer": "budget",
+      "hint": "כסף מתוכנן"
     },
     {
-      "sentenceWithBlank": "They ____ that most friendships were honest.",
-      "answer": "estimated",
-      "hint": "להעריך / לנחש מספר"
+      "sentenceWithBlank": "Break a leg is a ____ used to wish good luck.",
+      "answer": "phrase",
+      "hint": "צירוף מילים"
     },
     {
-      "sentenceWithBlank": "She was ____ to his feelings.",
-      "answer": "sensitive",
-      "hint": "רגישה"
+      "sentenceWithBlank": "The tech sector is always making ____.",
+      "answer": "progress",
+      "hint": "שיפור והתקדמות"
     },
     {
-      "sentenceWithBlank": "She didn’t want to get ____ with anyone from work.",
-      "answer": "involved",
-      "hint": "להיות חלק מ..."
-    },
-    {
-      "sentenceWithBlank": "He chose not to ____ a romantic relationship.",
-      "answer": "pursue",
-      "hint": "לרדוף / להמשיך אחרי"
-    },
-    {
-      "sentenceWithBlank": "Opposite-sex friendships can become ____.",
-      "answer": "complicated",
-      "hint": "מסובך / מורכב"
-    },
-    {
-      "sentenceWithBlank": "One ____ of the study was honesty.",
-      "answer": "aspect",
-      "hint": "היבט"
-    },
-    {
-      "sentenceWithBlank": "There was a ____ understanding between them.",
-      "answer": "mutual",
-      "hint": "הדדי"
-    },
-    {
-      "sentenceWithBlank": "Their differences caused a ____.",
-      "answer": "conflict",
-      "hint": "קונפליקט / ריב"
-    },
-    {
-      "sentenceWithBlank": "Both friends ____ not to tell anyone.",
-      "answer": "agreed",
-      "hint": "אמרו כן ביחד"
-    },
-    {
-      "sentenceWithBlank": "The experiment required full ____.",
-      "answer": "confidentiality",
-      "hint": "סודיות"
-    },
-    {
-      "sentenceWithBlank": "There is always a ____ of developing feelings.",
-      "answer": "possibility",
-      "hint": "יכול לקרות"
-    },
-    {
-      "sentenceWithBlank": "An outside ____ might think they were in love.",
-      "answer": "observer",
-      "hint": "מי שמסתכל מהצד"
-    },
-    {
-      "sentenceWithBlank": "The ____ of the study surprised everyone.",
-      "answer": "conclusion",
-      "hint": "מסקנה"
-    },
-    {
-      "sentenceWithBlank": "His words ____ a big argument.",
-      "answer": "provoked",
-      "hint": "גרמו לזה"
-    },
-    {
-      "sentenceWithBlank": "There was a serious ____ about friendships.",
-      "answer": "debate",
-      "hint": "ויכוח / דיון"
-    },
-    {
-      "sentenceWithBlank": "The magazine published a ____ story about them.",
-      "answer": "lurid",
-      "hint": "סיפור דרמטי / סנסציוני"
+      "sentenceWithBlank": "The museum displayed a historic ____ from the 15th century.",
+      "answer": "tapestry",
+      "hint": "בד קיר עתיק"
     }
   ]
 }
