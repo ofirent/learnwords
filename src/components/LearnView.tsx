@@ -81,7 +81,7 @@ export default function LearnView() {
           sx={{ minWidth: 220 }}
         >
           <MenuItem value="all">כל הרשימות</MenuItem>
-          <MenuItem value="friends">Men &amp; Women Can’t Just Be Friends</MenuItem>
+          <MenuItem value="friends">Clocking Cultures</MenuItem>
         </Select>
         <ToggleButtonGroup
           value={mode}
