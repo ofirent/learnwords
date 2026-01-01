@@ -6,7 +6,7 @@ export const vocab: VocabItem[] = friendsSet.vocab.map((v) => ({
   translation: v.translation,
   example: v.example,
   difficulty: v.difficulty as Difficulty | undefined,
-  source: 'friends',
+  source: 'competition',
 }))
 
 export const practice: PracticeItem[] = friendsSet.practice
