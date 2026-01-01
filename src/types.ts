@@ -1,6 +1,6 @@
 export type Difficulty = 'easy' | 'medium' | 'hard'
 
-export type SourceKey = 'routine' | 'nomophobia' | 'friends'
+export type SourceKey = 'routine' | 'nomophobia' | 'friends' | 'competition'
 
 export interface VocabItem {
   word: string
