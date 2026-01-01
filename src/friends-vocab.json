@@ -1,124 +1,39 @@
 {
-  "setId": "clocking-cultures",
-  "label": "Clocking Cultures - Vocabulary",
-  "source": "clocking",
+  "setId": "competition-cooperation",
+  "label": "Competition and Cooperation - Vocabulary",
+  "source": "competition",
   "colors": {
     "easy": "#4caf50",
     "medium": "#ffb300",
     "hard": "#f44336"
   },
   "vocab": [
-    {
-      "word": "culture",
-      "translation": "תרבות",
-      "example": "She wants to learn more about Japanese culture before visiting Tokyo.",
-      "difficulty": "easy"
-    },
-    {
-      "word": "priorities",
-      "translation": "עדיפויות",
-      "example": "My health and family are my top priorities.",
-      "difficulty": "easy"
-    },
-    {
-      "word": "ambassador",
-      "translation": "שגריר",
-      "example": "The ambassador spoke to the students about peace and cooperation.",
-      "difficulty": "medium"
-    },
-    {
-      "word": "resident",
-      "translation": "תושב",
-      "example": "Bobby is a resident of Beersheva.",
-      "difficulty": "easy"
-    },
-    {
-      "word": "concept",
-      "translation": "מושג",
-      "example": "Concepts of time vary by culture.",
-      "difficulty": "medium"
-    },
-    {
-      "word": "ancestors",
-      "translation": "אבות / אבות קדומים",
-      "example": "Her ancestors came from Sicily many years ago.",
-      "difficulty": "medium"
-    },
-    {
-      "word": "budget",
-      "translation": "תקציב",
-      "example": "Jill and Glen try to stick to a monthly family budget.",
-      "difficulty": "easy"
-    },
-    {
-      "word": "phrase",
-      "translation": "ביטוי",
-      "example": "Break a leg is a phrase that you say to wish someone good luck.",
-      "difficulty": "easy"
-    },
-    {
-      "word": "progress",
-      "translation": "התקדמות",
-      "example": "The tech sector seems to always be making progress.",
-      "difficulty": "easy"
-    },
-    {
-      "word": "tapestry",
-      "translation": "טפט / אריג קיר",
-      "example": "The museum has a beautiful tapestry dating back from the 15th century.",
-      "difficulty": "hard"
-    }
+    { "word": "conduct", "translation": "התנהגות / לערוך", "example": "Researchers conduct experiments at their lab.", "difficulty": "medium" },
+    { "word": "researchers", "translation": "חוקרים", "example": "Researchers conduct experiments at their lab.", "difficulty": "easy" },
+    { "word": "founder", "translation": "מייסד", "example": "The founder of the company was very young.", "difficulty": "easy" },
+    { "word": "rivalry", "translation": "יריבות", "example": "There is a strong rivalry between the two teams.", "difficulty": "medium" },
+    { "word": "hostility", "translation": "עוינות", "example": "He could not hide his hostility.", "difficulty": "medium" },
+    { "word": "subjects, participants", "translation": "משתתפים / נבדקים", "example": "Researchers recruited subjects for the experiment.", "difficulty": "medium" },
+    { "word": "isolate", "translation": "לבודד", "example": "The scientist tried to isolate the compound.", "difficulty": "hard" },
+    { "word": "achieve", "translation": "להשיג", "example": "I hope you achieve your goals.", "difficulty": "easy" },
+    { "word": "cooperate", "translation": "לשתף פעולה", "example": "When people cooperate, they succeed.", "difficulty": "easy" },
+    { "word": "compete", "translation": "להתחרות", "example": "Athletes compete in international tournaments.", "difficulty": "easy" },
+    { "word": "unified", "translation": "מאוחד", "example": "The country was unified after the war.", "difficulty": "medium" },
+    { "word": "method", "translation": "שיטה", "example": "She has a good method for studying.", "difficulty": "easy" },
+    { "word": "goal, aim", "translation": "מטרה", "example": "Her goal is to succeed.", "difficulty": "easy" },
+    { "word": "threat", "translation": "איום", "example": "It was seen as a serious threat.", "difficulty": "medium" },
+    { "word": "authors", "translation": "סופרים", "example": "The authors wrote the book together.", "difficulty": "easy" }
   ],
   "practice": [
-    {
-      "sentenceWithBlank": "She wants to learn more about Japanese ____ before visiting Tokyo.",
-      "answer": "culture",
-      "hint": "מסורות, אורח חיים"
-    },
-    {
-      "sentenceWithBlank": "My health and family are my top ____.",
-      "answer": "priorities",
-      "hint": "מה שהכי חשוב לך"
-    },
-    {
-      "sentenceWithBlank": "The ____ spoke to the students about peace and cooperation.",
-      "answer": "ambassador",
-      "hint": "נציג מדינה רשמי"
-    },
-    {
-      "sentenceWithBlank": "Bobby is a ____ of Beersheva.",
-      "answer": "resident",
-      "hint": "גר במקום מסוים"
-    },
-    {
-      "sentenceWithBlank": "Concepts of time vary by ____.",
-      "answer": "culture",
-      "hint": "מדינות, עמים"
-    },
-    {
-      "sentenceWithBlank": "Her ____ came from Sicily many years ago.",
-      "answer": "ancestors",
-      "hint": "אבות קדומים"
-    },
-    {
-      "sentenceWithBlank": "They try to stick to a monthly family ____.",
-      "answer": "budget",
-      "hint": "כסף מתוכנן"
-    },
-    {
-      "sentenceWithBlank": "Break a leg is a ____ used to wish good luck.",
-      "answer": "phrase",
-      "hint": "צירוף מילים"
-    },
-    {
-      "sentenceWithBlank": "The tech sector is always making ____.",
-      "answer": "progress",
-      "hint": "שיפור והתקדמות"
-    },
-    {
-      "sentenceWithBlank": "The museum displayed a historic ____ from the 15th century.",
-      "answer": "tapestry",
-      "hint": "בד קיר עתיק"
-    }
+    { "sentenceWithBlank": "Researchers ____ experiments in their lab.", "answer": "conduct", "hint": "לערוך ניסוי" },
+    { "sentenceWithBlank": "The two teams developed a strong ____ over the years.", "answer": "rivalry", "hint": "יריבות" },
+    { "sentenceWithBlank": "The man showed clear ____ toward his opponent.", "answer": "hostility", "hint": "עוינות" },
+    { "sentenceWithBlank": "The scientist tried to ____ the chemical compound.", "answer": "isolate", "hint": "לבודד" },
+    { "sentenceWithBlank": "I hope you ____ all your dreams.", "answer": "achieve", "hint": "להשיג" },
+    { "sentenceWithBlank": "If people ____ , they can solve problems together.", "answer": "cooperate", "hint": "לעבוד יחד" },
+    { "sentenceWithBlank": "Athletes ____ against each other in the competition.", "answer": "compete", "hint": "להתחרות" },
+    { "sentenceWithBlank": "Her ____ is to become a leader.", "answer": "goal", "hint": "מטרה" },
+    { "sentenceWithBlank": "The countries were ____ into one nation.", "answer": "unified", "hint": "מאוחד" },
+    { "sentenceWithBlank": "The experiment required several human ____.", "answer": "subjects", "hint": "משתתפים" }
   ]
 }
